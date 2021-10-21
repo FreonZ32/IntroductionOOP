@@ -1,8 +1,11 @@
 #include<iostream>
+#include<math.h>
 using namespace std;
 using::cout;
 using::cin;
 using::endl;
+
+double distance(double x, double y, double x1, double y2);
 
 class Point
 {
@@ -10,21 +13,15 @@ class Point
 	double y;
 public:
 	double get_x()const
-	{
-		return x;
-	}
+	{return x;}
 	double get_y()const
-	{
-		return y;
-	}
+	{return y;}
 	void set_x(double x)
-	{
-		this->x = x;
-	}
+	{this->x = x;}
 	void set_y(double y)
-	{
-		this->y = y;
-	}
+	{this->y = y;}
+	double distance(double x, double y, double x1 = 0, double y1 = 0)
+	{ double dist = sqrt(pow((x1-x),2)+pow((y1-y),2)); return dist; }
 };
 
 //#define STRUCT_POINT
@@ -37,13 +34,21 @@ void main()
 	A.x = 2;
 	A.y = 3;
 	cout << A.x << "\t " << A.y << endl;
-
 	Point* pA = &A;
 	cout << pA->x << "\t " << pA->y << endl;
 #endif // STRUCT_POINT
-
 	Point A;
-	A.set_x(2);
-	A.set_y(3);
+	A.set_x(6);
+	A.set_y(4);
 	cout << A.get_x() << "\t" << A.get_y() << endl;
+	cout << A.distance(A.get_x(),A.get_y()) << endl;
+	int x1, y1;
+	cout << "¬ведите координаты второй точки x и y: "; cin >> x1 >> y1; 
+	cout << distance(A.get_x(), A.get_y(), x1, y1) << endl;
+}
+
+double distance(double x, double y, double x1, double y1)
+{
+	Point A;
+	return A.distance(x, y, x1, y1);
 }
