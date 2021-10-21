@@ -21,7 +21,7 @@ public:
 	void set_y(double y)
 	{this->y = y;}
 	double distance(double x, double y, double x1 = 0, double y1 = 0)
-	{ double dist = sqrt(pow((x1-x),2)+pow((y1-y),2)); return dist; }
+	{ return sqrt(pow((x1 - x), 2) + pow((y1 - y), 2));}
 };
 
 //#define STRUCT_POINT
