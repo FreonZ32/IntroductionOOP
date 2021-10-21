@@ -20,7 +20,7 @@ public:
 	{this->x = x;}
 	void set_y(double y)
 	{this->y = y;}
-	double distance(double x, double y, double x1 = 0, double y1 = 0)
+	static double distance(double x, double y, double x1 = 0, double y1 = 0)	//static метод не имеет доступа к this!!!!!
 	{ return sqrt(pow((x1 - x), 2) + pow((y1 - y), 2));}
 };
 
@@ -37,18 +37,20 @@ void main()
 	Point* pA = &A;
 	cout << pA->x << "\t " << pA->y << endl;
 #endif // STRUCT_POINT
+	double x, y;
+	cout << "Введите координаты точки: "; cin >> x >> y;
 	Point A;
-	A.set_x(6);
-	A.set_y(4);
-	cout << A.get_x() << "\t" << A.get_y() << endl;
-	cout << A.distance(A.get_x(),A.get_y()) << endl;
-	int x1, y1;
-	cout << "Введите координаты второй точки x и y: "; cin >> x1 >> y1; 
-	cout << distance(A.get_x(), A.get_y(), x1, y1) << endl;
+	A.set_x(x);A.set_y(y);
+	//cout << A.get_x() << "\t" << A.get_y() << endl;
+	cout << "Расстояние до точки равно: " << A.distance(A.get_x(), A.get_y()) << endl;
+	cout << "Введите координаты второй точки x и y: "; cin >> x >> y; 
+	Point B;
+	B.set_x(x); B.set_y(y);
+	//cout << B.get_x() << "\t" << B.get_y() << endl;
+	cout << "Расстояние между точками равно: " << distance(A.get_x(), A.get_y(), B.get_x(), B.get_y()) << endl;
 }
 
 double distance(double x, double y, double x1, double y1)
 {
-	Point A;
-	return A.distance(x, y, x1, y1);
+	return Point::distance(x, y, x1, y1);
 }
