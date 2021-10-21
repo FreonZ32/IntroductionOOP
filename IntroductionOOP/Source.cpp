@@ -5,7 +5,7 @@ using::cout;
 using::cin;
 using::endl;
 
-double distance(double x, double y, double x1, double y2);
+double distance(class Point A, class Point B);
 
 class Point
 {
@@ -20,11 +20,54 @@ public:
 	{this->x = x;}
 	void set_y(double y)
 	{this->y = y;}
-	static double distance(double x, double y, double x1 = 0, double y1 = 0)	//static метод не имеет доступа к this!!!!!
-	{ return sqrt(pow((x1 - x), 2) + pow((y1 - y), 2));}
+
+	//Constructor
+	Point()
+	{
+		x = 0;
+		y = 0;
+		cout << "Default constractor:\t" << this << endl;
+	}
+	Point(double x, double y)
+	{
+		this->x = x;
+		this->y = y;
+		cout << "Constructor:\t\t" << this << endl;
+	}
+	Point(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "Copy constructor:\t" << this << endl;
+	}
+	//Operators
+	void operator =(const Point& other)
+	{
+
+		this->x = other.x;
+		this->y = other.y;
+		cout << "Copy Assignment:\t" << this << endl;
+	}
+
+	~Point()
+	{
+		cout << "Destructor:\t\t" << this << endl;
+	}
+	double distance(Point other)
+	{
+		double x_distance = other.x - this->x;
+		double y_distance = other.y - this->y;
+		double distance = sqrt(pow(x_distance, 2) + pow(y_distance, 2));
+		return distance;
+	}
+	void print()const
+	{
+		cout << "X = " << x << "\t" << "Y = " << y << endl;
+	}
 };
 
 //#define STRUCT_POINT
+//#define DISTANCE
 
 void main()
 {
@@ -37,20 +80,38 @@ void main()
 	Point* pA = &A;
 	cout << pA->x << "\t " << pA->y << endl;
 #endif // STRUCT_POINT
+
+#ifdef DISTANCE
 	double x, y;
 	cout << "Введите координаты точки: "; cin >> x >> y;
 	Point A;
-	A.set_x(x);A.set_y(y);
+	A.set_x(x); A.set_y(y);
 	//cout << A.get_x() << "\t" << A.get_y() << endl;
-	cout << "Расстояние до точки равно: " << A.distance(A.get_x(), A.get_y()) << endl;
-	cout << "Введите координаты второй точки x и y: "; cin >> x >> y; 
+	A.print();
+	cout << "Введите координаты второй точки x и y: "; cin >> x >> y;
+
 	Point B;
 	B.set_x(x); B.set_y(y);
 	//cout << B.get_x() << "\t" << B.get_y() << endl;
-	cout << "Расстояние между точками равно: " << distance(A.get_x(), A.get_y(), B.get_x(), B.get_y()) << endl;
+	A.print();
+
+	cout << "Расстояние между точками равно: " << A.distance(B) << endl;
+	cout << "Расстояние между точками равно: " << distance(A, B) << endl;
+#endif // DISTANCE
+
+	Point A;	//Default constuctor
+	A.print();
+
+	Point B(2, 3);
+	B.print();
+
+	Point C = B;
+	C.print();
+
+	Point D;
+	D = B;
+	D.print();
 }
 
-double distance(double x, double y, double x1, double y1)
-{
-	return Point::distance(x, y, x1, y1);
-}
+double distance(class Point A ,class Point B)
+{ return A.distance(B);}
