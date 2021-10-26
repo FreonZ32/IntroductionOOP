@@ -1,9 +1,9 @@
 #include<iostream>
 #include<math.h>
 using namespace std;
-using::cout;
-using::cin;
-using::endl;
+using std::cout;
+using std::cin;
+using std::endl;
 
 double distance(class Point A, class Point B);
 
