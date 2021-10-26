@@ -5,7 +5,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-double distance(class Point A, class Point B);
+double distance(class Point& A, class Point& B);
 
 class Point
 {
@@ -41,19 +41,20 @@ public:
 		cout << "Copy constructor:\t" << this << endl;
 	}
 	//Operators
-	void operator =(const Point& other)
+	Point& operator =(const Point& other)
 	{
 
 		this->x = other.x;
 		this->y = other.y;
 		cout << "Copy Assignment:\t" << this << endl;
+		return *this;
 	}
 
 	~Point()
 	{
 		cout << "Destructor:\t\t" << this << endl;
 	}
-	double distance(Point other)
+	double distance(const Point& other)
 	{
 		double x_distance = other.x - this->x;
 		double y_distance = other.y - this->y;
@@ -66,9 +67,11 @@ public:
 	}
 };
 
+#define delimiter "\n-----------------------------------------\n"
 //#define STRUCT_POINT
 //#define DISTANCE
-#define CONSTRUCTOR
+//#define CONSTRUCTOR
+#define ASSIGMENT_CHECK
 
 void main()
 {
@@ -89,14 +92,17 @@ void main()
 	A.set_x(x); A.set_y(y);
 	//cout << A.get_x() << "\t" << A.get_y() << endl;
 	A.print();
+	cout << delimiter << endl;
 	cout << "Введите координаты второй точки x и y: "; cin >> x >> y;
 
 	Point B;
 	B.set_x(x); B.set_y(y);
 	//cout << B.get_x() << "\t" << B.get_y() << endl;
 	A.print();
+	cout << delimiter << endl;
 
 	cout << "Расстояние между точками равно: " << A.distance(B) << endl;
+	cout << delimiter << endl;
 	cout << "Расстояние между точками равно: " << distance(A, B) << endl;
 #endif // DISTANCE
 
@@ -115,7 +121,26 @@ void main()
 	D.print();
 #endif // CONSTRUCTOR
 
+#ifdef ASSIGMENT_CHECK
+	int a, b, c;
+	a = b = c = 0;
+	cout << a << "\t" << b << "\t" << c << endl;
+
+	Point A, B, C;
+	cout << delimiter << endl;
+	A = B = C = Point(2, 3);	//Point(2,3) Явный вызов конструктора. Таким образом создается временный безымянный объект,
+	//который существует только в пределах выражения. И удаляется после завершения.
+	cout << delimiter << endl;
+	A.print();
+	B.print();
+	C.print();
+#endif // ASSIGMENT_CHECK
+
+	Point A(2, 3);
+	Point B(3, 4);
+	Point C = A + B;
+
 }
 
-double distance(class Point A ,class Point B)
+double distance(class Point& A ,class Point& B)
 { return A.distance(B);}
