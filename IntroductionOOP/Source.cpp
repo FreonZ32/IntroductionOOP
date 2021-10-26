@@ -68,6 +68,7 @@ public:
 
 //#define STRUCT_POINT
 //#define DISTANCE
+#define CONSTRUCTOR
 
 void main()
 {
@@ -99,6 +100,7 @@ void main()
 	cout << "Расстояние между точками равно: " << distance(A, B) << endl;
 #endif // DISTANCE
 
+#ifdef CONSTRUCTOR
 	Point A;	//Default constuctor
 	A.print();
 
@@ -111,6 +113,8 @@ void main()
 	Point D;
 	D = B;
 	D.print();
+#endif // CONSTRUCTOR
+
 }
 
 double distance(class Point A ,class Point B)
