@@ -40,6 +40,10 @@ public:
 		this->x = other.x;
 		this->y = other.y;
 		cout << "Copy constructor:\t" << this << endl;
+	}	
+	~Point()
+	{
+		cout << "Destructor:\t\t" << this << endl;
 	}
 	//Operators
 	Point& operator=(const Point& other)
@@ -50,11 +54,22 @@ public:
 		/*return Point((x+=other.x),(y+=other.y));*/
 		return *this;
 	}
-
-	~Point()
+	//Increment/Decrement
+	Point& operator++()	//Prefix increment
 	{
-		cout << "Destructor:\t\t" << this << endl;
+		this->x++;
+		this->y++;
+		return *this;
 	}
+	Point operator++(int)	//Suffix increment
+	{
+		//Point old = *this;	//сохраняем текущее знач нашего объекта
+		//this->x++;
+		//this->y++;
+		return Point(this->x++,this->y++);
+	}
+
+	//Metods
 	double distance(const Point& other)
 	{
 		double x_distance = other.x - this->x;
@@ -68,11 +83,34 @@ public:
 	}
 };
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point buffer;
+	buffer.set_x(left.get_x() + right.get_x());
+	buffer.set_y(left.get_y() + right.get_y());
+	return buffer;
+}
+ostream& operator<<(ostream& os, const Point& obj)
+{
+	os << "X = " << obj.get_x() << "\t" << "Y = " << obj.get_y();
+	return os;
+}
+istream& operator>>(istream& is,Point& obj)
+{
+	double x, y;
+	is >> x >> y;
+	obj.set_x(x);
+	obj.set_y(y);
+	return is;
+}
+
 #define delimiter "\n-----------------------------------------\n"
 //#define STRUCT_POINT
 //#define DISTANCE
-#define CONSTRUCTOR
+//#define CONSTRUCTOR
 //#define ASSIGMENT_CHECK
+#define OPERATOR_OVERLOADING
+//#define ARITHMETICAL_OPERATOR_CHECK
 
 void main()
 {
@@ -120,6 +158,10 @@ void main()
 	Point D;
 	D = B;
 	D.print();
+
+	Point V(B.get_x(), 4);
+	cout << V.get_x() << "\t" << V.get_y() << endl;
+
 #endif // CONSTRUCTOR
 
 #ifdef ASSIGMENT_CHECK
@@ -137,9 +179,29 @@ void main()
 	C.print();
 #endif // ASSIGMENT_CHECK
 
-	/*Point A(2, 3);
+#ifdef ARITHMETICAL_OPERATOR_CHECK
+	Point A(2, 3);
 	Point B(3, 4);
-	Point C = A + B;*/
+	Point C = A+B;	//Чтобы научить оператор + складывать точки, его нужно перегрузить для класса точка.
+	C.print();
+	++C;
+	C.print();
+#endif // #define ARITHMETICAL_OPERATOR_CHECK
+
+	/*for (Point i(2, 3); i.get_x() < 10; i++)
+	{
+		i.print();
+	}*/
+	Point A(2, 3);
+	//A.print();
+	Point B = A++;
+	//B.print();
+	//A.print();
+	cout << A << endl;
+	cout << B << endl;
+	cout << "Введите координаты точки: ";
+	cin >> A;
+	cout << A << endl;
 
 }
 
