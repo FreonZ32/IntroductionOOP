@@ -42,10 +42,13 @@ public:
 		cout << "Copy constructor:\t" << this << endl;
 	}
 	//Operators
-	Point operator =(const Point& other)
+	Point& operator=(const Point& other)
 	{
+		this->x = other.x;
+		this->y = other.y;
 		cout << "Copy Assignment:\t" << this << endl;
-		return Point((x+=other.x),(y+=other.y));
+		/*return Point((x+=other.x),(y+=other.y));*/
+		return *this;
 	}
 
 	~Point()
