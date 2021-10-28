@@ -28,6 +28,7 @@ public:
 		y = 0;
 		cout << "Default constractor:\t" << this << endl;
 	}
+	//Point() :x(0), y(0) {}
 	Point(double x, double y)
 	{
 		this->x = x;
