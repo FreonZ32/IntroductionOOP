@@ -41,13 +41,10 @@ public:
 		cout << "Copy constructor:\t" << this << endl;
 	}
 	//Operators
-	Point& operator =(const Point& other)
+	Point operator =(const Point& other)
 	{
-
-		this->x = other.x;
-		this->y = other.y;
 		cout << "Copy Assignment:\t" << this << endl;
-		return *this;
+		return Point((x+=other.x),(y+=other.y));
 	}
 
 	~Point()
@@ -70,8 +67,8 @@ public:
 #define delimiter "\n-----------------------------------------\n"
 //#define STRUCT_POINT
 //#define DISTANCE
-//#define CONSTRUCTOR
-#define ASSIGMENT_CHECK
+#define CONSTRUCTOR
+//#define ASSIGMENT_CHECK
 
 void main()
 {
@@ -136,9 +133,9 @@ void main()
 	C.print();
 #endif // ASSIGMENT_CHECK
 
-	Point A(2, 3);
+	/*Point A(2, 3);
 	Point B(3, 4);
-	Point C = A + B;
+	Point C = A + B;*/
 
 }
 
