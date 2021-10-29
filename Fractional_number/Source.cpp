@@ -68,6 +68,20 @@ public:
 	{
 		cout << numerator << " / " << denominator << endl;
 	}
+	int NOD(const Fraction& other)
+	{
+		int Lden = this->denominator; int Rden = other.get_den();
+		while (Lden != Rden)
+		{
+			if (Lden > Rden)Lden -= Rden;
+			else Rden -= Lden;
+		}
+		return Lden;
+	}
+	int NOK(const Fraction& other)
+	{
+		return denominator * other.get_den() / NOD(other);
+	}
 																		//Operators
 	Fraction& operator=(const Fraction& other)
 	{
@@ -82,7 +96,6 @@ public:
 	{ this->numerator += denominator; return *this; }
 	Fraction operator++(int)
 	{ Fraction old; this->numerator += denominator; return old; }
-	
 };
 								
 																		//Cin/Cout
@@ -109,20 +122,26 @@ istream& operator>>(istream& is, Fraction& obj)
 	for (unsigned int i = 10; i < 1000000000; i *= 10)
 	{
 		if (den == i)
-		{ obj.set_dec(true); break;}
+		{
+			obj.set_dec(true); break;
+		}
 	}
 	return is;
 }
+																		//Operators
+//Fraction operator+(const Fraction& left,const Fraction& right)
+//{
+//	return 0;
+//}
+
 
 void main()
 {
 	setlocale(LC_ALL, "rus");
-	Fraction A(-21, 100000);
-	cout << A << endl;
-	cout << "¬ведите дробь в формате \"числитель_знаменатель\": "; cin >> A;
-	cout << A << endl;
-	A++;
-	cout << A << endl;
-	++A;
-	cout << A << endl;
+	Fraction A(21, 24);
+	Fraction B(5, 36);
+	A.print();
+	B.print();
+	cout << A.NOK(B) << endl;
+	cout << A.NOD(B) << endl;
 }
