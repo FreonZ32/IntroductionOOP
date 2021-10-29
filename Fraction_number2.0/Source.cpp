@@ -79,10 +79,6 @@ public:
 	//Methods
 	void print()
 	{	
-		/*if (integer != 0)
-			if (numerator == denominator) cout << integer << endl;
-			else cout << integer << "(" << numerator << "/" << denominator << ")" << endl;
-		else cout << numerator << "/" << denominator << endl;*/
 		if (integer)cout << integer;
 		if (numerator)
 		{
@@ -94,15 +90,9 @@ public:
 		cout << endl;
 	}
 	void to_improper()	//Переделывает в простую дробь.
-	{
-		numerator += integer * numerator;
-		integer = 0;
-	}
+	{ numerator += integer * numerator; integer = 0; }
 	void to_proper()	//Переделывает в дробь с целым числом.
-	{
-		integer += numerator / denominator;
-		numerator %= denominator;
-	}
+	{ integer += numerator / denominator; numerator %= denominator;}
 	void reduce()
 	{
 		/*int x = numerator;
