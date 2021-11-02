@@ -74,19 +74,28 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
-
 	//				Methods:
-	void to_proper()
+	Fraction& to_proper()
 	{
 		//Переводит дробь в правильную - выделяет целую часть:
 		integer += numerator / denominator;
 		numerator %= denominator;
+		return *this;
 	}
-	void to_improper()
+	Fraction& to_improper()
 	{
 		//Переводит дробь в НЕправильную - интегрирует целую часть в числитель:
 		numerator += integer * denominator;
 		integer = 0;
+		return *this;
+	}
+	Fraction& to_invert()
+	{
+		to_improper();
+		int buffer = numerator;
+		numerator = denominator;
+		denominator = buffer;
+		return *this;
 	}
 	void reduce()
 	{
@@ -109,11 +118,80 @@ public:
 			if (integer)cout << ")";
 		}
 		else if (integer == 0)cout << 0;
-		cout << endl;
+	}
+	int NOD(const Fraction& other)	//Вычисляет НОД
+	{
+		int Lden = this->denominator; int Rden = other.get_denominator();
+		while (Lden != Rden)
+		{
+			if (Lden > Rden)Lden -= Rden;
+			else Rden -= Lden;
+		}
+		return Lden;
+	}
+	int NOK(const Fraction& other)	//Вычисляет НОК
+	{
+		return denominator * other.get_denominator() / NOD(other);
+	}
+	Fraction& operator*=(const Fraction other)
+	{
+		Fraction buffer = (*this * other);
+		return buffer;
 	}
 };
+//				Operator
+Fraction operator*(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	/*Fraction buffer((left.get_numerator() * right.get_numerator()),(left.get_denominator() * right.get_denominator()));
+	buffer.to_proper();
+	return buffer;*/
+	return Fraction((left.get_numerator() * right.get_numerator()), (left.get_denominator() * right.get_denominator())).to_proper();
+}
+Fraction operator/(Fraction left, Fraction right)
+{
+	/*left.to_improper();
+	right.to_improper();*/
+	//return Fraction((left.get_numerator() * right.get_denominator()),(left.get_denominator() * right.get_numerator())).to_proper();
+	return left * right.to_invert();
+}
+Fraction operator+(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	int n = left.NOK(right);
+	return Fraction(
+	((left.get_numerator() * (n/left.get_denominator())) + (right.get_numerator() * (n/right.get_denominator()))), n
+	).to_proper();
+}
+Fraction operator-(Fraction left, Fraction right)
+{
+}
+
+//				Cin Cout
+ostream& operator<<(ostream& os, const Fraction& obj)
+{
+	if (obj.get_integer())os << obj.get_integer();
+	if (obj.get_numerator())
+	{
+		if (obj.get_integer())os << "(";
+		os << obj.get_numerator() << "/" << obj.get_denominator();
+		if (obj.get_integer())os << ")";
+	}
+	else if (obj.get_integer() == 0) os << 0;
+	os << endl;
+	return os;
+}
+istream& operator>>(istream& is, Fraction& obj)
+{
+
+	return is;
+}
+
 
 //#define CONSTRUCTORS_CHECK
+//#define OSTREAM_CHECK
 
 void main()
 {
@@ -129,11 +207,25 @@ void main()
 	D.print();
 #endif // CONSTRUCTORS_CHECK
 
-	Fraction A(14, 4);
+#ifdef OSTREAM_CHECK
+	Fraction A(46, 48);
 	A.to_proper();
-	A.print();
+	cout << A << endl;
 	A.to_improper();
-	A.print();
+	cout << A << endl;
 	A.reduce();
-	A.print();
+	cout << A << endl;
+#endif // OSTREAM_CHECK
+
+	Fraction A(1, 2, 3);
+	Fraction B(2, 4, 5);
+	cout << A << endl;
+	cout << B << endl;
+	Fraction C = A + B;
+	//Fraction C = A * B;
+	cout << C << endl;
+	A *= B;
+	cout << A << endl;
+
+
 }
