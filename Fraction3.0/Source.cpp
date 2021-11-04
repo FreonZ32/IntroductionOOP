@@ -1,4 +1,5 @@
 #include<iostream>
+#include<math.h>
 using namespace std;
 
 class Fraction
@@ -87,7 +88,9 @@ public:
 	}
 	void reduce()
 	{	//Сокращает дробь
-		int a = numerator; int b = denominator;
+		int a, b;
+		if(numerator>denominator){a = numerator; b = denominator;}
+		else b = numerator; a = denominator;
 			while (b)
 			{
 				a %= b;
@@ -133,6 +136,18 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
+	//Fraction& operator=(double obj)
+	//{
+	//	//integer = obj / 1;
+	//	/*float num; int num1; int k = 10;
+	//	for(float i = 0.1; ; i/=10,k*=10)
+	//	{
+	//		num = (obj - this->integer) / i;
+	//		num1 = (obj - this->integer) / i;
+	//		if (num == num1) {numerator = num;denominator = k;break; }
+	//	}
+	//	return *this;*/
+	//}
 	Fraction& operator*=(const Fraction other)
 	{
 		*this = *this * other;
@@ -171,6 +186,7 @@ public:
 		if ((this->integer - 1) < 0)this->numerator -= this->denominator;
 		else this->integer--; return old;
 	}
+
 	//				Friend_functions
 	friend Fraction operator*(Fraction, Fraction);
 	friend Fraction operator/(Fraction, Fraction);
@@ -308,19 +324,21 @@ void main()
 	cout << A << endl;
 #endif // OSTREAM_CHECK
 
-	Fraction A(2,45, 5);
-	Fraction B(15, 5);
-	cout << A << endl;
-	cout << B << endl;
-	//Fraction C = A + B;
-	//Fraction C = A * B;
-	//cout << C << endl;
-	if (A < B)cout << "Воооооооо" << endl;
-	else cout << "DDDDDDDDDDDDDDDDD" << endl;
-	cout << A << endl;
-	A.reduce();
-	cout << A << endl;
-	cout << "Введите дробь в формате \"Целое_число(пробел)(числитель/знаменатель)\" либо \"числитель/знаменатель\", либо \"Целое_число(пробел)\": " << endl;
-	cin >> A;
-	cout << A << endl;
+	Fraction A(4,2,3);
+	//Fraction B(15, 5);
+	//cout << A << endl;
+	//cout << B << endl;
+	////Fraction C = A + B;
+	////Fraction C = A * B;
+	////cout << C << endl;
+	//if (A < B)cout << "Воооооооо" << endl;
+	//else cout << "DDDDDDDDDDDDDDDDD" << endl;
+	//cout << A++ << endl;
+	//A.reduce();
+	//cout << A << endl;
+	///*cout << "Введите дробь в формате \"Целое_число(пробел)(числитель/знаменатель)\" либо \"числитель/знаменатель\", либо \"Целое_число(пробел)\": " << endl;
+	//cin >> A;
+	//cout << A << endl;*/
+	//A = 2.752;
+	//cout << A << endl;
 }
