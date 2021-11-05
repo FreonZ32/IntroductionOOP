@@ -32,7 +32,7 @@ public:
 		this->denominator = 1;
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -64,6 +64,11 @@ public:
 	{
 		cout << "Destructor\t" << this << endl;
 	}
+	//			Type cast operator
+	explicit operator int()const
+	{ return integer;}
+	explicit operator double()const
+	{ return (double)(integer * denominator + numerator)/denominator;}
 
 	//				Methods:
 	Fraction& to_proper()
@@ -127,6 +132,7 @@ public:
 		return denominator * other.get_denominator() / NOD(other);
 	}
 
+
 	//			Operator
 	Fraction& operator=(const Fraction& other)
 	{
@@ -136,18 +142,18 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
-	//Fraction& operator=(double obj)
-	//{
-	//	//integer = obj / 1;
-	//	/*float num; int num1; int k = 10;
-	//	for(float i = 0.1; ; i/=10,k*=10)
-	//	{
-	//		num = (obj - this->integer) / i;
-	//		num1 = (obj - this->integer) / i;
-	//		if (num == num1) {numerator = num;denominator = k;break; }
-	//	}
-	//	return *this;*/
-	//}
+	/*Fraction& operator=(double obj)
+	{
+		integer = obj / 1;
+		float num; int num1; int k = 10;
+		for(float i = 0.1; ; i/=10,k*=10)
+		{
+			num = (obj - this->integer) / i;
+			num1 = (obj - this->integer) / i;
+			if (num == num1) {numerator = num;denominator = k;break; }
+		}
+		return *this;
+	}*/
 	Fraction& operator*=(const Fraction other)
 	{
 		*this = *this * other;
@@ -263,7 +269,6 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 		if (obj.get_integer())os << ")";
 	}
 	else if (obj.get_integer() == 0) os << 0;
-	os << endl;
 	return os;
 }
 istream& operator>>(istream& is, Fraction& obj)
@@ -299,6 +304,9 @@ istream& operator>>(istream& is, Fraction& obj)
 
 //#define CONSTRUCTORS_CHECK
 //#define OSTREAM_CHECK
+//#define IOSTREAM_OPERATOR_CHECK
+//#define TYPE_CONVERSION_BASICS
+//#define CONVERSION_FROM_OTHER_TO_CLASS
 
 void main()
 {
@@ -324,7 +332,8 @@ void main()
 	cout << A << endl;
 #endif // OSTREAM_CHECK
 
-	Fraction A(4,2,3);
+#ifdef IOSTREAM_OPERATOR_CHECK
+	Fraction A(4, 2, 3);
 	//Fraction B(15, 5);
 	//cout << A << endl;
 	//cout << B << endl;
@@ -340,5 +349,31 @@ void main()
 	//cin >> A;
 	//cout << A << endl;*/
 	//A = 2.752;
-	//cout << A << endl;
+	//cout << A << endl;  
+#endif // IOSTREAM_OPERATOR_CHECK
+
+#ifdef TYPE_CONVERSION_BASICS
+	int a = 2;	//No conversions
+	double b = 3;	//Conversion from int(4) to double(8)
+	int c = b;	//Conversion from double(8) to int(4) without data loss
+	int d = 4.5;	//Conversion from double(8) to int(4) with data loss
+	cout << d << endl;
+#endif // TYPE_CONVERSION_BASICS
+
+#ifdef CONVERSION_FROM_OTHER_TO_CLASS
+	2;	//From int to double
+	Fraction A = (Fraction)5;	//From int to Fraction
+	cout << A << endl;
+	Fraction B;
+	B = Fraction(8);	//explicit конструктор можно вызывать только так
+	cout << B << endl;
+#endif // CONVERSION_FROM_OTHER_TO_CLASS
+
+	
+	Fraction A(2, 3, 4);
+	int a = int(A);
+	cout << A << endl;
+	cout << a << endl;
+	double b = double(A);
+	cout << b << endl;
 }
