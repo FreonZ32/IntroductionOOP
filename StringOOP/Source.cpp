@@ -48,9 +48,9 @@ public:
 		this->str[n] = '\0';
 		cout << "ConstructorWithValue:\t" << this << endl;
 	}
-	String(String* other)
+	String(String& other)
 	{
-		int n = strlen(other->get_str());
+		int n = strlen(other.get_str());
 		this->length = n;
 		this->str = new char[n + 1];
 		for (int i = 0; i < n; i++)
