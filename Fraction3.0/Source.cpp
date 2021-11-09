@@ -50,6 +50,7 @@ public:
 		{if (int(n) - n == 0)break;}
 		numerator = n;
 		denominator = pow(10,d);
+		reduce();
 		cout << "From double to Fraction Constructor:" << this << endl;
 	}
 	Fraction(int numerator, int denominator)
@@ -406,6 +407,6 @@ void main()
 	cout << a << endl;
 	double b = double(A);
 	cout << b << endl;*/
-	Fraction A = Fraction(2.75);
+	Fraction A = 2.75;
 	cout << A << endl;
 }
