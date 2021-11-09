@@ -13,8 +13,12 @@ class String
 public:
 	char* get_str()const
 	{	return str;	}
-	char* set_str(char* str)
+	void set_str(char* str)
 	{	strcpy(this->str, str);	}
+	int get_length()const
+	{	return length;	}
+	void set_length(int length)
+	{	this->length = length;}
 	//Constructors
 	String()
 	{
@@ -37,7 +41,7 @@ public:
 		{
 			this->str[i] = str[i];
 		}
-		this->str[n] = 0;
+		this->str[n] = '\0';
 		cout << "ConstructorWithValue:\t" << this << endl;
 	}
 	~String()
@@ -62,7 +66,7 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "rus");
-	String A;
+	String A("help");
 	A.print();
 }
 
