@@ -48,18 +48,18 @@ public:
 		this->str[n] = '\0';
 		cout << "ConstructorWithValue:\t" << this << endl;
 	}
-	/*String(const char* str)
+	String(String* other)
 	{
-		int n = strlen(str);
+		int n = strlen(other->get_str());
 		this->length = n;
 		this->str = new char[n + 1];
 		for (int i = 0; i < n; i++)
 		{
-			this->str[i] = str.get_str_i(i);
+			this->str[i] = other.get_str()[i];
 		}
 		this->str[n] = '\0';
 		cout << "CopyConstructor:\t" << this << endl;
-	}*/
+	}
 
 	~String()
 	{
