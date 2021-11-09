@@ -13,8 +13,12 @@ class String
 public:
 	char* get_str()const
 	{	return str;	}
+	char* get_str_i(int n)const
+	{	return &str[n]; }
 	void set_str(char* str)
 	{	strcpy(this->str, str);	}
+	void set_str_i(char* value, int n)
+	{	str[n] = *value;}
 	int get_length()const
 	{	return length;	}
 	void set_length(int length)
@@ -44,6 +48,19 @@ public:
 		this->str[n] = '\0';
 		cout << "ConstructorWithValue:\t" << this << endl;
 	}
+	/*String(const char* str)
+	{
+		int n = strlen(str);
+		this->length = n;
+		this->str = new char[n + 1];
+		for (int i = 0; i < n; i++)
+		{
+			this->str[i] = str.get_str_i(i);
+		}
+		this->str[n] = '\0';
+		cout << "CopyConstructor:\t" << this << endl;
+	}*/
+
 	~String()
 	{
 		delete[] this->str;
@@ -57,16 +74,48 @@ public:
 		cout << ":print" << endl;
 	}
 	//Operators
-	/*String& operator=(const String& other)
+	String& operator=(const char* obj)
 	{
-
-	}*/
+		delete[] this->str;
+		int n = strlen(obj);
+		this->length = n;
+		this->str = new char[n + 1];
+		for (int i = 0; i < n; i++)
+		{
+			this->str[i] = obj[i];
+		}
+		this->str[n] = '\0';
+		return *this;
+	}
+	
 };
 
+String& operator+(String left, String right)
+{
+	int l = strlen(left.get_str());
+	int r = strlen(right.get_str());
+	int k = l + r;
+	String buffer = new char[k]{};
+	buffer.set_length(k);
+	int i = 0;
+	for (i; i < l; i++)
+	{buffer.set_str_i(left.get_str_i(i),i);}
+	for (int j = 0; j < r;j++, i++)
+	{buffer.set_str_i(right.get_str_i(j), i);}
+	buffer.set_str_i(left.get_str_i(l), k);
+	return buffer;
+}
 void main()
 {
 	setlocale(LC_ALL, "rus");
-	String A("help");
+	String A;
+	A = "Hello";
 	A.print();
+	String B;
+	B = "World";
+	B.print();
+	String C;
+	C = A + B;
+	C.print();
 }
 
