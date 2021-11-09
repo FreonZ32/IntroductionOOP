@@ -40,7 +40,7 @@ public:
 		this->denominator = 1;
 		cout << "SingleArgConstructor:" << this << endl;
 	}
-	Fraction(double obj)
+	/*Fraction(double obj)
 	{
 		int d = 0;
 		double n, i;
@@ -50,6 +50,15 @@ public:
 		{if (int(n) - n == 0)break;}
 		numerator = n;
 		denominator = pow(10,d);
+		reduce();
+		cout << "From double to Fraction Constructor:" << this << endl;
+	}*/
+	Fraction(double decimal)
+	{
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;
+		numerator = decimal * denominator;
 		reduce();
 		cout << "From double to Fraction Constructor:" << this << endl;
 	}
@@ -339,6 +348,7 @@ istream& operator>>(istream& is, Fraction& obj)
 //#define IOSTREAM_OPERATOR_CHECK
 //#define TYPE_CONVERSION_BASICS
 //#define CONVERSION_FROM_OTHER_TO_CLASS
+#define CONVERSION_FROM_CLASS_TO_OTHER
 
 void main()
 {
@@ -401,12 +411,15 @@ void main()
 	cout << B << endl;
 #endif // CONVERSION_FROM_OTHER_TO_CLASS
 
+#ifdef CONVERSION_FROM_CLASS_TO_OTHER
 	/*Fraction A(2, 3, 4);
-	int a = int(A);
+int a = int(A);
+cout << A << endl;
+cout << a << endl;
+double b = double(A);
+cout << b << endl;*/
+	Fraction A = 2.76;
 	cout << A << endl;
-	cout << a << endl;
-	double b = double(A);
-	cout << b << endl;*/
-	Fraction A = 2.75;
-	cout << A << endl;
+#endif // CONVERSION_FROM_CLASS_TO_OTHER
+
 }

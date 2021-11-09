@@ -33,7 +33,7 @@ public:
 	String(int length)
 	{
 		this->length = length;
-		this->str = new char[80]{};
+		this->str = new char[length]{};
 		cout << "ConstructorWithLength:\t" << this << endl;
 	}
 	String(char* str)
