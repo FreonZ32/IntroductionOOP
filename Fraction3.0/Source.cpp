@@ -1,3 +1,4 @@
+#pragma warning(disable : 4996)
 #include<iostream>
 #include<math.h>
 using namespace std;
@@ -39,6 +40,18 @@ public:
 		this->denominator = 1;
 		cout << "SingleArgConstructor:" << this << endl;
 	}
+	Fraction(double obj)
+	{
+		int d = 0;
+		double n, i;
+		n = modf(obj,&i);
+		integer = i;
+		for (n,d;; n*=10,d++)
+		{if (int(n) - n == 0)break;}
+		numerator = n;
+		denominator = pow(10,d);
+		cout << "From double to Fraction Constructor:" << this << endl;
+	}
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -68,7 +81,7 @@ public:
 	explicit operator int()const
 	{ return integer;}
 	explicit operator double()const
-	{ return (double)(integer * denominator + numerator)/denominator;}
+	{ return ((integer*denominator) + numerator)/denominator;}
 
 	//				Methods:
 	Fraction& to_proper()
@@ -142,18 +155,6 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
-	/*Fraction& operator=(double obj)
-	{
-		integer = obj / 1;
-		float num; int num1; int k = 10;
-		for(float i = 0.1; ; i/=10,k*=10)
-		{
-			num = (obj - this->integer) / i;
-			num1 = (obj - this->integer) / i;
-			if (num == num1) {numerator = num;denominator = k;break; }
-		}
-		return *this;
-	}*/
 	Fraction& operator*=(const Fraction other)
 	{
 		*this = *this * other;
@@ -273,30 +274,60 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 }
 istream& operator>>(istream& is, Fraction& obj)
 {
-	int n = 31; int c = 0;
-	bool FracType = false;	//false - простая/true - с целым числом
-	char str[31]{};
-	obj.set_integer(0); obj.set_numerator(0), obj.set_denominator(1);
-	is.getline(str, n);
-	for (int i = 0; str[i]; i++) if (isblank(str[i])) { FracType = true; break; }
-	if (FracType)
+	//int n = 31; int c = 0;
+	//bool FracType = false;	//false - простая/true - с целым числом
+	//char str[31]{};
+	//obj.set_integer(0); obj.set_numerator(0), obj.set_denominator(1);
+	//is.getline(str, n);
+	//for (int i = 0; str[i]; i++) if (isblank(str[i])) { FracType = true; break; }
+	//if (FracType)
+	//{
+	//	while (isdigit(str[c]))
+	//	{
+	//		obj.set_integer(obj.get_integer() * 10);
+	//		obj.set_integer((int(str[c++]) - 48) + obj.get_integer());
+	//	}c += 2;
+	//}
+	//while (isdigit(str[c]))
+	//{
+	//	obj.set_numerator(obj.get_numerator() * 10);
+	//	obj.set_numerator((int(str[c++]) - 48) + obj.get_numerator());
+	//}c++;
+	//while (isdigit(str[c]))
+	//{
+	//	if (obj.get_denominator() != 1)obj.set_denominator(obj.get_denominator() * 10);
+	//	if (obj.get_denominator() != 1)obj.set_denominator((int(str[c++]) - 48) + obj.get_denominator());
+	//	else obj.set_denominator(int(str[c++]) - 48);
+	//}
+	//return is;
+
+	const int SIZE = 50;
+	char buffer[SIZE] = {};
+	char delimiters[] = "()/ ";
+	//		5
+	//		1/2
+	//		5(1/2)
+	//		5 1/2
+	//		5.5
+	//is >> buffer;
+	is.getline(buffer, SIZE);
+	char* value[3] = {};
+	int n = 0;
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
 	{
-		while (isdigit(str[c]))
-		{
-			obj.set_integer(obj.get_integer() * 10);
-			obj.set_integer((int(str[c++]) - 48) + obj.get_integer());
-		}c += 2;
+		value[n++] = pch;
 	}
-	while (isdigit(str[c]))
+	switch (n)
 	{
-		obj.set_numerator(obj.get_numerator() * 10);
-		obj.set_numerator((int(str[c++]) - 48) + obj.get_numerator());
-	}c++;
-	while (isdigit(str[c]))
-	{
-		if (obj.get_denominator() != 1)obj.set_denominator(obj.get_denominator() * 10);
-		if (obj.get_denominator() != 1)obj.set_denominator((int(str[c++]) - 48) + obj.get_denominator());
-		else obj.set_denominator(int(str[c++]) - 48);
+	case 1: obj.set_integer(atoi(value[0])); break;
+	case 2:
+		obj.set_numerator(atoi(value[0]));
+		obj.set_denominator(atoi(value[1]));
+		break;
+	case 3:
+		obj.set_integer(atoi(value[0]));
+		obj.set_numerator(atoi(value[1]));
+		obj.set_denominator(atoi(value[2]));
 	}
 	return is;
 }
@@ -356,12 +387,12 @@ void main()
 	int a = 2;	//No conversions
 	double b = 3;	//Conversion from int(4) to double(8)
 	int c = b;	//Conversion from double(8) to int(4) without data loss
-	int d = 4.5;	//Conversion from double(8) to int(4) with data loss
+	int d = 4.7;	//Conversion from double(8) to int(4) with data loss
 	cout << d << endl;
 #endif // TYPE_CONVERSION_BASICS
 
 #ifdef CONVERSION_FROM_OTHER_TO_CLASS
-	2;	//From int to double
+	double a = 2;	//From int to double
 	Fraction A = (Fraction)5;	//From int to Fraction
 	cout << A << endl;
 	Fraction B;
@@ -369,11 +400,12 @@ void main()
 	cout << B << endl;
 #endif // CONVERSION_FROM_OTHER_TO_CLASS
 
-	
-	Fraction A(2, 3, 4);
+	/*Fraction A(2, 3, 4);
 	int a = int(A);
 	cout << A << endl;
 	cout << a << endl;
 	double b = double(A);
-	cout << b << endl;
+	cout << b << endl;*/
+	Fraction A = Fraction(2.75);
+	cout << A << endl;
 }
