@@ -55,6 +55,7 @@ public:
 	}*/
 	Fraction(double decimal)
 	{
+		decimal += 1e-11;
 		integer = decimal;
 		decimal -= integer;
 		denominator = 1e+9;
@@ -114,9 +115,14 @@ public:
 		denominator = buffer;
 		return *this;
 	}
-	void reduce()
+	Fraction& reduce()
 	{	//Сокращает дробь
 		int a, b;
+		if (numerator == 0)
+		{
+			denominator = 1;
+			return *this;
+		}
 		if(numerator>denominator){a = numerator; b = denominator;}
 		else b = numerator; a = denominator;
 			while (b)
@@ -128,6 +134,7 @@ public:
 			denominator /= a;
 			if (denominator == 1) 
 			{	integer += numerator;numerator = 0;	}
+			return *this;
 	}
 	void print()
 	{
@@ -418,8 +425,12 @@ cout << A << endl;
 cout << a << endl;
 double b = double(A);
 cout << b << endl;*/
-	Fraction A = 2.76;
+	/*Fraction A = 2.76;
 	cout << A << endl;
+	Fraction C(2, 76, 100);
+	cout << C << endl;*/
+	Fraction D(1, 3);
+	cout << D*3 << endl;
 #endif // CONVERSION_FROM_CLASS_TO_OTHER
 
 }
