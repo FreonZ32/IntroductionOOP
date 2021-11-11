@@ -75,6 +75,7 @@ ostream& operator<<(ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
+
 //#define CONSTRUCTOR_CHECK
 
 void main()
