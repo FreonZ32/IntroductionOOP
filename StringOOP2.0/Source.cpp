@@ -5,6 +5,9 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 	int size;
@@ -12,7 +15,9 @@ class String
 public:
 	const char* get_str()const
 	{	return str;	}
-	const int get_size()const
+	char* get_str()
+	{	return str;	}
+	int get_size()const
 	{	return size;}
 
 	//Constructor
@@ -42,6 +47,13 @@ public:
 		}
 		cout << "CopyConstructor:\t" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		cout << "MoveConstructor:\t" << this << endl;
+		other.str = nullptr; other.size = 0;
+	}
 	~String()
 	{
 		delete[] this->str;
@@ -68,7 +80,39 @@ public:
 		cout << "CopyAssigment:\t\t" << this << endl;
 		return *this;
 	}
+	String& operator=(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		other.size = 0;
+		return *this;
+	}
+	String operator+=(const String& other)
+	{	return *this = *this + other;	}
+	const char& operator[](int i)const
+	{	return str[i];}
+	char& operator[](int i)
+	{	return str[i];}
+	
 };
+
+String operator+(const String& left, const String& right)
+{
+	String buffer = left.get_size() + right.get_size() - 1;
+	for (int i = 0; i < left.get_size(); i++)
+	{	
+		/*buffer.get_str()[i] = left.get_str()[i];*/
+		buffer[i] = left[i];
+	}
+	for (int i = 0; i < right.get_size(); i++)
+	{	
+		/*buffer.get_str()[i + left.get_size()-1] = right.get_str()[i];*/
+		buffer[i + left.get_size() - 1] = right[i];
+	}
+	return buffer;
+}
+
 
 ostream& operator<<(ostream& os, const String& obj)
 {
@@ -94,7 +138,14 @@ void main()
 	cout << str3 << endl;
 #endif // CONSTRUCTOR_CHECK
 
-	String str1 = "Hello";
+	/*String str1 = "Hello";
 	str1 = str1;
-	cout << str1 << endl;
+	cout << str1 << endl;*/
+
+	String str1 = "Hello";
+	String str2 = "World";
+	String str3 = str1 + str2;
+	/*cout << str3 << endl << endl;
+	str1 += str2;
+	cout << str1 << endl << endl;*/
 }
