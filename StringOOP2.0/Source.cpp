@@ -145,7 +145,7 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 	String str3 = str1 + str2;
-	/*cout << str3 << endl << endl;
+	cout << str3 << endl << endl;
 	str1 += str2;
-	cout << str1 << endl << endl;*/
+	cout << str1 << endl << endl;
 }
