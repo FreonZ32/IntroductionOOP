@@ -1,3 +1,4 @@
+#pragma warning(disable : 4996)
 #include<iostream>
 #include<string.h>
 using namespace std;
@@ -27,7 +28,8 @@ public:
 	}
 	String(const char* str):String(strlen(str)+1)//Делигируем выделение памяти конструктору по умолчанию
 	{
-		for (int i = 0; i < size; i++)this->str[i] = str[i];
+		//for (int i = 0; i < size; i++)this->str[i] = str[i];
+		strcpy(this->str, str);
 		cout << "Constructor:\t\t" << this << endl;
 	}
 	String(const String& other):String(other.str)
@@ -85,16 +87,18 @@ public:
 String operator+(const String& left, const String& right)
 {
 	String buffer(left.get_size() + right.get_size() - 1);
-	for (int i = 0; i < left.get_size(); i++)
-	{	
-		/*buffer.get_str()[i] = left.get_str()[i];*/
-		buffer[i] = left[i];
-	}
-	for (int i = 0; i < right.get_size(); i++)
-	{	
-		/*buffer.get_str()[i + left.get_size()-1] = right.get_str()[i];*/
-		buffer[i + left.get_size() - 1] = right[i];
-	}
+	//for (int i = 0; i < left.get_size(); i++)
+	//{	
+	//	/*buffer.get_str()[i] = left.get_str()[i];*/
+	//	buffer[i] = left[i];
+	//}
+	//for (int i = 0; i < right.get_size(); i++)
+	//{	
+	//	/*buffer.get_str()[i + left.get_size()-1] = right.get_str()[i];*/
+	//	buffer[i + left.get_size() - 1] = right[i];
+	//}
+	strcpy(buffer.get_str(), left.get_str());
+	strcat(buffer.get_str(), right.get_str());
 	return buffer;
 }
 
