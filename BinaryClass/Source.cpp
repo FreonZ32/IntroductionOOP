@@ -9,7 +9,20 @@ class Binary
 	int size;
 	unsigned int* arr;
 public:
-	Binary()
+	int get_size()const
+	{
+		return size;
+	}
+	const int get_arr()const
+	{
+		return *arr;
+	}
+	int get_arr()
+	{
+		return *arr;
+	}
+
+	Binary() noexcept
 	{
 		this->size = 10;
 		this->arr = new unsigned int[size]{};
@@ -28,7 +41,7 @@ public:
 			arr[i] = n % 10;
 			n /= 10;
 		}
-		cout << "Constructor:\t\t" << this << endl;
+		cout << "Constructor:\t" << this << endl;
 	}
 	Binary(const Binary& other)
 	{
@@ -39,6 +52,14 @@ public:
 			this->arr[i] = other.arr[i];
 		}
 		cout << "CopyConstructor:\t" << this << endl;
+	}
+	Binary(Binary&& other) noexcept
+	{
+		this->size = other.size;
+		this->arr = other.arr;
+		other.arr = nullptr;
+		other.size = 0;
+		cout << "MoveConstructor:\t" << this << endl;
 	}
 	~Binary()
 	{
@@ -59,6 +80,14 @@ public:
 		cout << "CopyAssigment:\t\t" << this << endl;
 		return *this;
 	}
+	Binary& operator=(Binary&& other) noexcept
+	{
+		this->size = other.size;
+		this->arr = other.arr;
+		other.arr = nullptr;
+		other.size = 0;
+		return *this;
+	}
 
 	//Methods
 	void print()
@@ -73,10 +102,16 @@ public:
 	}
 };
 
+//Binary& operator+(const Binary& left, const Binary& right)
+//{
+//}
+
 void main()
 {
 	setlocale(LC_ALL, "rus");
-	Binary A= 10101;
+	Binary A = 1010111;
 	A.print();
+	Binary B = 11010;
+	B.print();
 
 }
