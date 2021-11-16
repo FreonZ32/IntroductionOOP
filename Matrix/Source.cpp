@@ -16,8 +16,16 @@ public:
 	{
 		return cols;
 	}
+	const int* get_arr(int i)const
+	{
+		return arr[i];
+	}
+	int* get_arr(int i)
+	{
+		return arr[i];
+	}
 	//Constructor
-	Matrix(int rows = 2, int cols = 2)
+	Matrix(int rows = 2, int cols = 2) noexcept
 	{
 		this->rows = rows;
 		this->cols = cols;
@@ -32,17 +40,40 @@ public:
 	{
 
 	}
-	Matrix(const Matrix& other)//:Matrix(other.rows, other.cols)
+	Matrix(const Matrix& other)
 	{
-		/*for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				this->arr[i][j] = other.arr[i][j];
-			}
-		}*/
 		*this = other;
 		cout << "CopyConstructor:\t" << this << endl;
+	}
+	Matrix(Matrix&& other) noexcept
+	{
+		this->rows = other.rows;
+		this->cols = other.cols;
+		this->arr = other.arr;
+		/*for (int i = 0; i < rows; i++)		//Why not?????????
+		{
+			other.arr[i] = nullptr;
+		}*/
+		other.arr = nullptr;
+		other.cols = 0;
+		other.rows = 0;
+		cout << "MoveConstructor:\t" << this << endl;
+	}
+	Matrix(const Matrix& left, const Matrix& right)
+	{
+		int r, c;
+		if (left.get_rows() > right.get_rows())r = left.get_rows();
+		else r = right.get_rows();
+		if (left.get_cols() > right.get_cols())c = left.get_rows();
+		else c = right.get_cols();
+		this->rows = r;
+		this->cols = c;
+		this->arr = new int* [rows] {};
+		for (int i = 0; i < rows; i++)
+		{
+			arr[i] = new int[cols] {};
+		}
+		cout << "FusionConstructor:\t" << this << endl;
 	}
 	~Matrix()
 	{
@@ -81,6 +112,16 @@ public:
 		cout << "CopyAssigment:\t" << this << endl;
 		return *this;
 	}
+	Matrix& operator=(Matrix&& other) noexcept
+	{
+		this->rows = other.rows;
+		this->cols = other.cols;
+		this->arr = other.arr;
+		other.arr = nullptr;
+		other.cols = 0;
+		other.rows = 0;
+		return *this;
+	}
 
 	//Methods
 	void print()const
@@ -94,23 +135,89 @@ public:
 			cout << endl;
 		}
 	}
+	void filling(int value = 100)
+	{
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < cols; j++)
+			{
+				this->arr[i][j] = rand() % value;
+			}
+		}
+		cout << "Filling:\t" << this << endl;
+	}
 };
+
+Matrix operator+(const Matrix& left, const Matrix& right)
+{
+	Matrix buffer(left,right);
+	for (int i = 0; i < left.get_rows(); i++)
+	{
+		for (int j = 0; j < left.get_cols(); j++)buffer[i][j] = left.get_arr(i)[j];
+	}
+	for (int i = 0; i < right.get_rows(); i++)
+	{
+		for (int j = 0; j < right.get_cols(); j++)buffer[i][j] += right.get_arr(i)[j];
+	}
+	return buffer;
+}
+Matrix operator-(const Matrix& left, const Matrix& right)
+{
+	Matrix buffer(left,right);
+	for (int i = 0; i < left.get_rows(); i++)
+	{
+		for (int j = 0; j < left.get_cols(); j++)buffer[i][j] = left.get_arr(i)[j];
+	}
+	for (int i = 0; i < right.get_rows(); i++)
+	{
+		for (int j = 0; j < right.get_cols(); j++)buffer[i][j] -= right.get_arr(i)[j];
+	}
+	return buffer;
+}
+Matrix operator*(const Matrix& left, const Matrix& right)
+{
+	Matrix buffer(left, right);
+	for (int i = 0; i < left.get_rows(); i++)
+	{
+		for (int j = 0; j < left.get_cols(); j++)buffer[i][j] = left.get_arr(i)[j];
+	}
+	for (int i = 0; i < right.get_rows(); i++)
+	{
+		for (int j = 0; j < right.get_cols(); j++)buffer[i][j] *= right.get_arr(i)[j];
+	}
+	return buffer;
+}
+
+
 
 void main()
 {
 	setlocale(LC_ALL, "rus");
 
-	Matrix A(3,4);
-	for (int i = 0; i < A.get_rows(); i++)
-	{
-		for (int j = 0; j < A.get_cols(); j++)
-		{
-			A[i][j] = rand() % 100;
-		}
-	}
+	Matrix A(3, 4);
+	A.filling();
 	A.print();
+	cout << endl;
 
-	Matrix B;
+	/*Matrix B;
 	B = A;
 	B.print();
+	cout << endl;*/
+
+	Matrix D(2, 6);
+	D.filling(300);
+	D.print();
+
+	cout << endl;
+	Matrix C;
+	C = A + D;
+	C.print();
+	cout << endl;
+
+	C = C - D;
+	C.print();
+	cout << endl;
+
+	C = A * D;
+	C.print();
 }
