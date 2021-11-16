@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringOOP2.0", "StringOOP2.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Matrix", "Matrix\Matrix.vcxproj", "{3AEE446F-A898-40C2-8909-555ED5C0078C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinaryClass", "BinaryClass\BinaryClass.vcxproj", "{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,6 +83,14 @@ Global
 		{3AEE446F-A898-40C2-8909-555ED5C0078C}.Release|x64.Build.0 = Release|x64
 		{3AEE446F-A898-40C2-8909-555ED5C0078C}.Release|x86.ActiveCfg = Release|Win32
 		{3AEE446F-A898-40C2-8909-555ED5C0078C}.Release|x86.Build.0 = Release|Win32
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Debug|x64.ActiveCfg = Debug|x64
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Debug|x64.Build.0 = Debug|x64
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Debug|x86.ActiveCfg = Debug|Win32
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Debug|x86.Build.0 = Debug|Win32
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Release|x64.ActiveCfg = Release|x64
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Release|x64.Build.0 = Release|x64
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Release|x86.ActiveCfg = Release|Win32
+		{B3FB5A9D-7B2F-4056-B1E8-1EA28832E0D4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
