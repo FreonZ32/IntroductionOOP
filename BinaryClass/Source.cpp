@@ -13,13 +13,17 @@ public:
 	{
 		return size;
 	}
-	const int get_arr()const
+	const unsigned int& get_arr(int i = 0)const
 	{
-		return *arr;
+		return arr[i];
 	}
-	int get_arr()
+	unsigned int& get_arr(int i = 0)
 	{
-		return *arr;
+		return arr[i];
+	}
+	void set_size(int n)
+	{
+		this->size = n;
 	}
 
 	Binary() noexcept
@@ -88,6 +92,14 @@ public:
 		other.size = 0;
 		return *this;
 	}
+	const unsigned int& operator[](int i)const
+	{
+		return arr[i];
+	}
+	unsigned int& operator[](int i)
+	{
+		return arr[i];
+	}
 
 	//Methods
 	void print()
@@ -102,9 +114,30 @@ public:
 	}
 };
 
-//Binary& operator+(const Binary& left, const Binary& right)
-//{
-//}
+Binary& operator+(const Binary& left, const Binary& right)
+{
+	int s;
+	if (left.get_size() > right.get_size())s = left.get_size()+1;
+	else s = right.get_size()+1;
+	Binary buffer;
+	buffer.set_size(s);
+	unsigned int* buf = new unsigned int[s];
+	for (int i = s-1,k = left.get_size(); i ; i--,k--)
+	{
+		if (k >= 0)
+			buf[i] = left.get_arr(k);
+	}
+	for (int i = s-1, k = right.get_size();i; i--,k--)
+	{
+		buf[i] += right.get_arr(k);
+		if (buf[i] <= 2)
+		{
+			buf[i] = 1;
+			buf[i + 1] = buf[i + 1] + 1;
+		}
+	}
+	
+}
 
 void main()
 {
