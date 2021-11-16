@@ -36,10 +36,7 @@ public:
 		}
 		cout << "Constructor:\t" << this << endl;
 	}
-	Matrix(int n) :Matrix(1,n)
-	{
-
-	}
+	Matrix(int n) :Matrix(1, n){}
 	Matrix(const Matrix& other)
 	{
 		*this = other;
@@ -187,8 +184,6 @@ Matrix operator*(const Matrix& left, const Matrix& right)
 	}
 	return buffer;
 }
-
-
 
 void main()
 {
