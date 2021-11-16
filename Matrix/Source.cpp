@@ -147,7 +147,7 @@ public:
 
 Matrix operator+(const Matrix& left, const Matrix& right)
 {
-	Matrix buffer(left,right);
+	/*Matrix buffer(left,right);
 	for (int i = 0; i < left.get_rows(); i++)
 	{
 		for (int j = 0; j < left.get_cols(); j++)buffer[i][j] = left.get_arr(i)[j];
@@ -155,8 +155,21 @@ Matrix operator+(const Matrix& left, const Matrix& right)
 	for (int i = 0; i < right.get_rows(); i++)
 	{
 		for (int j = 0; j < right.get_cols(); j++)buffer[i][j] += right.get_arr(i)[j];
+	}*/
+	if (left.get_cols() != right.get_cols() || left.get_rows() != right.get_rows())
+	{
+		cout << "Matrix not compare!" << endl;
+		return Matrix();
 	}
-	return buffer;
+	Matrix buf(left.get_rows(), left.get_cols());
+	for (int i = 0; i < left.get_rows(); i++)
+	{
+		for (int j = 0; j < left.get_cols(); j++)
+		{
+			buf[i][j] = left.get_arr(i)[j] + right.get_arr(i)[j];
+		}
+	}
+	return buf;
 }
 Matrix operator-(const Matrix& left, const Matrix& right)
 {
@@ -199,7 +212,7 @@ void main()
 	B.print();
 	cout << endl;*/
 
-	Matrix D(2, 6);
+	Matrix D(3, 4);
 	D.filling(300);
 	D.print();
 
@@ -209,10 +222,10 @@ void main()
 	C.print();
 	cout << endl;
 
-	C = C - D;
+	/*C = C - D;
 	C.print();
 	cout << endl;
 
 	C = A * D;
-	C.print();
+	C.print();*/
 }
